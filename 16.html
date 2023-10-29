@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border: 5px solid black; border-collapse: collapse; background-color: white;
+        } td{
+            border: 2px solid black; padding: 5px;
+        }
+        body{
+            margin: 30px; font-family:'Trebuchet MS'; background-color: mediumseagreen;
+        }
+    </style>
+</head>
+<body>
+    <h1>1.Информация о пользователе</h1>
+    <table>
+        <tr>
+            <th>Поле</th>
+            <th>Значение</th>
+        </tr>
+    </table>
+
+    <h1>2.Скорость автомобиля</h1>
+    <p>Текущая скорость: <span id="speed">0</span> км/ч</p>
+
+    <button id="more">Ускорить</button>
+
+    <h1>3.Банковский счет</h1>
+    <p>Баланс: <span id="balance">1000</span> руб.</p>
+
+    <label for="plus">Пополнить счет:</label>
+    <input type="number" id="plus" placeholder="Введите сумму">
+    <button id="plus_button">Пополнить</button>
+
+    <label for="minus">Снять средства:</label>
+    <input type="number" id="minus" placeholder="Введите сумму">
+    <button id="minus_button">Снять</button>
+
+
+    <h1>4.Email Generator</h1>
+
+    <label for="name">Имя: </label>
+    <input type="text" id="name"><br><br>
+
+    <label for="domain">Домен: </label>
+    <input type="text" id="domain" value="example.com"><br><br>
+
+    <button id="generate">Сгенерировать Email</button><br><br>
+
+    <p>Сгенерированный Email: <span id="result"></span></p>
+
+
+    <script>
+        const user = {
+            name: "Ivan",
+            age: 30,
+            email: "ivan@example.com"
+        };
+
+        const tab = document.querySelector("table");
+
+        for (const i in user) {
+            const str = tab.insertRow();
+            const one = str.insertCell(0);
+            const two = str.insertCell(1);
+
+            one.textContent = i;
+            two.textContent = user[i];
+        }
+
+
+
+
+        const car = {
+            mark: "Toyota",
+            sp: 0,
+            mo: function (value) {
+                this.sp += value;
+                document.getElementById("speed").textContent = this.sp;
+            }
+        };
+
+        document.getElementById("more").addEventListener("click", function () {
+            car.mo(10);
+        });
+
+
+
+
+        const bank = {
+            balance: 1000,
+            plus: function (sum) {
+                this.balance += sum;
+                updatebal();
+            },
+            minus: function (sum) {
+                if (sum <= this.balance) {
+                    this.balance -= sum;
+                    updatebal();
+                } else {
+                    alert("Недостаточно средств на счете");
+                }
+            }
+        };
+
+        function updatebal() {
+            document.getElementById("balance").textContent = bank.balance + " руб.";
+        }
+
+        document.getElementById("plus_button").addEventListener("click", function () {
+            const sum = parseFloat(document.getElementById("plus").value);
+            bank.plus(sum);
+        });
+
+        document.getElementById("minus_button").addEventListener("click", function () {
+            const sum = parseFloat(document.getElementById("minus").value);
+            bank.minus(sum);
+        });
+
+
+
+
+        document.getElementById("generate").addEventListener("click", function () {
+            const name = document.getElementById("name").value;
+            const domain = document.getElementById("domain").value;
+            
+            if (name && domain) {
+                const generatedEmail = name + "@" + domain;
+                document.getElementById("result").textContent = generatedEmail;
+            } else {
+                alert("Пожалуйста, введите имя и домен");
+            }
+        });
+    </script>
+</body>
+
+</html>
